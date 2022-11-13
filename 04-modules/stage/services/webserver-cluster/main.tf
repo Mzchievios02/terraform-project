@@ -23,3 +23,15 @@ resource "aws_security_group_rule" "allow_testing" {
   protocol = "tcp"
   cidr_blocks = ["0.0.0.0/0"]
 }
+
+terraform {
+  backend "s3" {
+    bucket  = "tf-state-toks"
+    key     = "stage/services/webserver-cluster/terraform.tfstate"
+    region  = "us-east-2"
+    profile = "personal"
+
+    dynamodb_table = "terraform-locks"
+    encrypt        = true
+  }
+}
