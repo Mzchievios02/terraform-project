@@ -84,7 +84,7 @@ resource "aws_security_group_rule" "allow_all_outbound" {
 }
 
 resource "aws_lb_target_group" "asg" {
-  name     = "terraform-asg-example"
+  name     = "${var.cluster_name}-tg"
   port     = var.server_port
   protocol = "HTTP"
   vpc_id   = data.aws_vpc.default.id
@@ -144,18 +144,6 @@ data "terraform_remote_state" "db" {
     key    = var.db_remote_state_key
     region = "us-east-2"
     profile = "personal"
-  }
-}
-
-terraform {
-  backend "s3" {
-    bucket  = "tf-state-toks"
-    key     = "stage/services/webserver-cluster/terraform.tfstate"
-    region  = "us-east-2"
-    profile = "personal"
-
-    dynamodb_table = "terraform-locks"
-    encrypt        = true
   }
 }
 

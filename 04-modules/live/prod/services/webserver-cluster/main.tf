@@ -7,7 +7,7 @@ module "webserver_cluser" {
 
   cluster_name = "webservers-prod"
   db_remote_state_bucket = "tf-state-toks"
-  db_remote_state_key = "prod/data-stores/mysql/terraform.state"
+  db_remote_state_key = "prod/services/webserver-cluster/terraform.tfstate"
 
   instance_type = "t2.micro"
   min_size = 2
@@ -32,16 +32,4 @@ resource "aws_autoscaling_schedule" "scale_in_at_night" {
   recurrence = "0 17 * * *"
 
   autoscaling_group_name = module.webserver_cluser.asg_name
-}
-
-terraform {
-  backend "s3" {
-    bucket  = "tf-state-toks"
-    key     = "prod/services/webserver-cluster/terraform.tfstate"
-    region  = "us-east-2"
-    profile = "personal"
-
-    dynamodb_table = "terraform-locks"
-    encrypt        = true
-  }
 }
