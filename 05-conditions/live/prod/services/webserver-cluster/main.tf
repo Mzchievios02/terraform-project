@@ -1,5 +1,7 @@
 provider "aws" {
   region = "us-east-2"
+
+  # Tags to apply to all AWS resources by default
 }
 
 module "webserver_cluser" {
@@ -12,6 +14,11 @@ module "webserver_cluser" {
   instance_type = "t2.micro"
   min_size = 2
   max_size = 2
+
+  custom_tags = {
+    Owner = "Woks"
+    ManagedBy = "terraform"
+  }
 }
 
 resource "aws_autoscaling_schedule" "scale_out_during_business_hours" {
