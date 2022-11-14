@@ -3,7 +3,8 @@ provider "aws" {
 }
 
 module "webserver_cluster" {
-  source = "../../../../modules/services/webserver-cluster"
+  # source = "../../../../modules/services/webserver-cluster"
+  source = "github.com/Odigie02/modules//services/webserver-cluster?ref=v0.01"
 
   cluster_name = "webservers-stage"
   db_remote_state_bucket = "tf-state-toks"
